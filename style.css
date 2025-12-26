@@ -1572,7 +1572,14 @@ section {
     .brand-text {
         display: none;
     }
+
+   .menu-toggle {
+        display: flex;
+    }
     
+    .nav-actions {
+        display: none;
+    }
     .nav-menu {
         position: fixed;
         top: 80px;
