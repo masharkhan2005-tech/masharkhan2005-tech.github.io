@@ -40,84 +40,36 @@ if (cursorDot && cursorOutline && window.innerWidth > 768) {
 }
 
 // ================================
-// MOBILE MENU TOGGLE - WORKING VERSION
+// MOBILE MENU TOGGLE - SIMPLE FIX
 // ================================
 
-// Wait for page to load completely
-document.addEventListener('DOMContentLoaded', function() {
+window.addEventListener('load', function() {
     const menuToggle = document.querySelector('.menu-toggle');
     const navMenu = document.querySelector('.nav-menu');
-    const navLinks = document.querySelectorAll('.nav-link');
     
-    console.log('Menu Toggle Found:', menuToggle);
-    console.log('Nav Menu Found:', navMenu);
-    
-    if (menuToggle && navMenu) {
-        // Click hamburger to open/close
-        menuToggle.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            
-            console.log('Hamburger clicked!');
-            
-            // Toggle classes
-            menuToggle.classList.toggle('active');
-            navMenu.classList.toggle('active');
-            
-            // Prevent body scroll when menu open
+    if (menuToggle) {
+        menuToggle.onclick = function() {
             if (navMenu.classList.contains('active')) {
-                document.body.style.overflow = 'hidden';
-                console.log('Menu opened');
+                navMenu.classList.remove('active');
+                menuToggle.classList.remove('active');
+                document.body.style.overflow = '';
             } else {
-                document.body.style.overflow = '';
-                console.log('Menu closed');
+                navMenu.classList.add('active');
+                menuToggle.classList.add('active');
+                document.body.style.overflow = 'hidden';
             }
-        });
+        };
         
-        // Close menu when clicking a link
-        navLinks.forEach(function(link) {
-            link.addEventListener('click', function() {
-                menuToggle.classList.remove('active');
+        // Close when clicking menu links
+        const links = document.querySelectorAll('.nav-link');
+        links.forEach(function(link) {
+            link.onclick = function() {
                 navMenu.classList.remove('active');
-                document.body.style.overflow = '';
-                console.log('Link clicked, menu closed');
-            });
-        });
-        
-        // Close menu when clicking outside
-        document.addEventListener('click', function(e) {
-            const isMenuClick = navMenu.contains(e.target);
-            const isToggleClick = menuToggle.contains(e.target);
-            
-            if (!isMenuClick && !isToggleClick && navMenu.classList.contains('active')) {
                 menuToggle.classList.remove('active');
-                navMenu.classList.remove('active');
                 document.body.style.overflow = '';
-                console.log('Clicked outside, menu closed');
-            }
+            };
         });
-    } else {
-        console.error('Menu elements not found!');
-        console.log('menuToggle:', menuToggle);
-        console.log('navMenu:', navMenu);
     }
-});
-
-// ================================
-// SMOOTH SCROLLING
-// ================================
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            const offsetTop = target.offsetTop - 80;
-            window.scrollTo({
-                top: offsetTop,
-                behavior: 'smooth'
-            });
-        }
-    });
 });
 
 // ================================
